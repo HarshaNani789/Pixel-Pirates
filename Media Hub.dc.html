@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Media Hub — Pixel Pirates</title>
+<meta name="description" content="The Pixel Pirates media library — characters, episodes, season art, news, events, products and world imagery.">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #0B2A4A; }
+  a { color: #FFC233; } a:hover { color: #FFD75E; }
+  @keyframes pp-sparkle { 0%,100% { opacity: .15; transform: scale(.7); } 50% { opacity: 1; transform: scale(1.2); } }
+</style>
+</helmet>
+
+<dc-import name="SiteNav" active-page="Media Hub" hint-size="100%,66px" style="position:fixed;top:0;left:0;right:0;z-index:900;height:66px"></dc-import>
+
+<!-- Header -->
+<section data-screen-label="Media Hub header" style="position:relative;background:linear-gradient(180deg,#0E3D66,#1273B5);padding:150px 24px 70px;text-align:center;overflow:hidden">
+  <div style="position:absolute;top:34%;left:9%;width:9px;height:9px;border-radius:50%;background:#FFC233;animation:pp-sparkle 2.4s ease-in-out infinite"></div>
+  <div data-reveal="0" style="font-family:Nunito,sans-serif;font-weight:900;font-size:14px;letter-spacing:3px;color:#FFC233">ASSET LIBRARY</div>
+  <h1 data-reveal="1" style="margin:12px 0 14px;font-family:Fredoka,sans-serif;font-weight:700;font-size:clamp(42px,6.5vw,76px);color:#FFF8EA;text-shadow:0 4px 0 rgba(0,0,0,.35)">Media <span style="color:#FFC233">Hub</span></h1>
+  <p data-reveal="2" style="font-family:Nunito,sans-serif;font-weight:700;font-size:17px;color:rgba(255,248,234,.85);max-width:620px;margin:0 auto;line-height:1.6">Drag and drop your images onto any slot below — they save automatically and stay organized by folder. Click a filled image to view it full-screen.</p>
+  <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style="position:absolute;bottom:-1px;left:0;width:100%;height:70px"><path d="M0 70 L0 34 C240 6 480 62 720 36 C960 10 1200 58 1440 30 L1440 70 Z" fill="#0B2A4A"/></svg>
+</section>
+
+<!-- FOLDERS -->
+<section data-screen-label="Media folders" style="background:#0B2A4A;padding:70px 24px 110px">
+  <div style="max-width:1240px;margin:0 auto">
+    <div data-reveal="0" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:44px">
+      <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="8">
+        <button onClick="{{ tab.select }}" style="font-family:Nunito,sans-serif;font-weight:800;font-size:14px;color:{{ tab.color }};background:{{ tab.bg }};border:2px solid {{ tab.border }};border-radius:999px;padding:9px 20px;cursor:pointer;transition:transform .15s" style-hover="transform:translateY(-2px)">{{ tab.label }}</button>
+      </sc-for>
+    </div>
+    <sc-for list="{{ folders }}" as="folder" hint-placeholder-count="2">
+      <div style="margin-bottom:52px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+          <div style="width:44px;height:44px;border-radius:14px;background:{{ folder.iconBg }};display:grid;place-items:center;font-size:21px;box-shadow:inset 0 2px 0 rgba(255,255,255,.35),0 3px 0 rgba(0,0,0,.3)">{{ folder.icon }}</div>
+          <div>
+            <div style="font-family:Fredoka,sans-serif;font-weight:700;font-size:24px;color:#FFF8EA">{{ folder.name }}</div>
+            <div style="font-family:Nunito,sans-serif;font-weight:700;font-size:13px;color:rgba(255,248,234,.55)">{{ folder.hint }}</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px">
+          <sc-for list="{{ folder.slots }}" as="slot" hint-placeholder-count="4">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="position:relative;height:190px;border-radius:18px;overflow:hidden;border:2px solid rgba(255,248,234,.15);transition:border-color .2s,transform .2s" style-hover="border-color:rgba(255,194,51,.55);transform:translateY(-4px)">
+                <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="{{ slot.id }}" shape="rect" src="{{ slot.src }}" placeholder="{{ slot.placeholder }}" hint-size="100%,190px" style="position:absolute;inset:0"></x-import>
+              </div>
+              <input type="text" placeholder="Add a caption / alt text…" aria-label="Caption" style="font-family:Nunito,sans-serif;font-weight:600;font-size:13px;color:#FFF8EA;background:rgba(16,24,35,.6);border:1.5px solid rgba(255,248,234,.12);border-radius:12px;padding:9px 14px;outline:none" style-focus="border-color:rgba(255,194,51,.55)">
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+    <div data-reveal="0" style="text-align:center;background:rgba(16,24,35,.6);border:2px dashed rgba(255,194,51,.4);border-radius:22px;padding:30px;max-width:720px;margin:0 auto">
+      <div style="font-family:Fredoka,sans-serif;font-weight:600;font-size:20px;color:#FFC233">Every slot accepts JPEG, PNG, WebP and GIF</div>
+      <p style="font-family:Nunito,sans-serif;font-weight:600;font-size:14px;color:rgba(255,248,234,.7);line-height:1.6;margin:8px 0 0">Drop an image on a slot to fill it — double-click a filled slot to reframe or zoom the crop. Uploads persist and appear here every time you visit. Want video slots or more folders? Just ask.</p>
+    </div>
+  </div>
+</section>
+
+<dc-import name="SiteFooter" wave-bg="#0B2A4A" hint-size="100%,420px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { tab: 'All' };
+
+  componentDidMount() {
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    revealEls.forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity .7s ease, transform .7s cubic-bezier(.2,.9,.3,1)';
+    });
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) { en.target.style.opacity = '1'; en.target.style.transform = 'none'; this._io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach((el) => this._io.observe(el));
+  }
+  componentWillUnmount() { if (this._io) this._io.disconnect(); }
+
+  _allFolders() {
+    const slot = (id, placeholder, src) => ({ id, placeholder, src: src || '' });
+    return [
+      { name: 'Characters / Pirate Red', icon: '🔴', iconBg: 'linear-gradient(160deg,#E04A40,#C02D24)', hint: 'Poses, expressions, key art', slots: [
+        slot('char-red-1', 'Pirate Red key art'), slot('char-red-2', 'Pirate Red pose'), slot('char-red-3', 'Pirate Red expression'), slot('char-red-4', 'Pirate Red scene') ] },
+      { name: 'Characters / Pirate Black', icon: '⚫', iconBg: 'linear-gradient(160deg,#2a3340,#14181F)', hint: 'Poses, expressions, key art', slots: [
+        slot('char-black-1', 'Pirate Black key art'), slot('char-black-2', 'Pirate Black pose'), slot('char-black-3', 'Pirate Black expression'), slot('char-black-4', 'Pirate Black scene') ] },
+      { name: 'Episodes / Episode 01', icon: '🎬', iconBg: 'linear-gradient(160deg,#1273B5,#0E3D66)', hint: 'Stills and storyboards', slots: [
+        slot('ep1-1', 'Episode 1 still'), slot('ep1-2', 'Episode 1 still'), slot('ep1-3', 'Storyboard frame'), slot('ep1-4', 'Behind the scenes') ] },
+      { name: 'Episodes / Episode 02', icon: '🎬', iconBg: 'linear-gradient(160deg,#1273B5,#0E3D66)', hint: 'Stills and storyboards', slots: [
+        slot('ep2-1', 'Episode 2 still'), slot('ep2-2', 'Episode 2 still'), slot('ep2-3', 'Storyboard frame'), slot('ep2-4', 'Behind the scenes') ] },
+      { name: 'Season', icon: '🗺️', iconBg: 'linear-gradient(160deg,#FFC233,#E0921F)', hint: 'Posters and key art', slots: [
+        slot('season-1', 'Season poster', 'assets/worldmap.jpeg'), slot('season-2', 'Season key art'), slot('season-3', 'Season banner'), slot('season-4', 'Logo lockup') ] },
+      { name: 'News', icon: '📰', iconBg: 'linear-gradient(160deg,#7fd6a2,#3E9C55)', hint: 'Announcement imagery', slots: [
+        slot('news-1', 'News image'), slot('news-2', 'News image'), slot('news-3', 'News image'), slot('news-4', 'Social post') ] },
+      { name: 'Events', icon: '🎪', iconBg: 'linear-gradient(160deg,#d9b3ff,#7C4DBE)', hint: 'Photos from shows and fairs', slots: [
+        slot('events-1', 'Event photo'), slot('events-2', 'Event photo'), slot('events-3', 'Live show'), slot('events-4', 'Meet & greet') ] },
+      { name: 'Shop / Products', icon: '🛍️', iconBg: 'linear-gradient(160deg,#FF9A8F,#D0342C)', hint: 'Product photography', slots: [
+        slot('shop-1', 'Product photo', 'assets/merch.jpeg'), slot('shop-2', 'Product photo'), slot('shop-3', 'Product photo'), slot('shop-4', 'Packaging') ] },
+      { name: 'Videos / Trailers', icon: '▶️', iconBg: 'linear-gradient(160deg,#8fc7ff,#1273B5)', hint: 'Trailer thumbnails and video stills', slots: [
+        slot('vid-1', 'Trailer thumbnail'), slot('vid-2', 'Teaser still'), slot('vid-3', 'Clip still'), slot('vid-4', 'Video still') ] },
+      { name: 'Worlds', icon: '🏝️', iconBg: 'linear-gradient(160deg,#3E9C55,#2c7440)', hint: 'Environments and locations', slots: [
+        slot('worlds-1', 'Environment art', 'assets/environment-sheet.jpeg'), slot('worlds-2', 'Location art'), slot('worlds-3', 'Location art'), slot('worlds-4', 'Concept art') ] },
+      { name: 'LEGO', icon: '🧱', iconBg: 'linear-gradient(160deg,#FFD75E,#E0921F)', hint: 'Building set renders and instructions', slots: [
+        slot('lego-1', 'Set render'), slot('lego-2', 'Set render'), slot('lego-3', 'Instructions page'), slot('lego-4', 'Gallery photo') ] },
+    ];
+  }
+
+  renderVals() {
+    const groups = ['All', 'Characters', 'Episodes', 'Season', 'News', 'Events', 'Shop', 'Videos', 'Worlds', 'LEGO'];
+    const tabs = groups.map((label) => {
+      const on = label === this.state.tab;
+      return {
+        label,
+        color: on ? '#14181F' : 'rgba(255,248,234,.85)',
+        bg: on ? 'linear-gradient(180deg,#FFD75E,#FFB61E)' : 'rgba(16,24,35,.6)',
+        border: on ? '#B57708' : 'rgba(255,248,234,.18)',
+        select: () => this.setState({ tab: label }),
+      };
+    });
+    const folders = this._allFolders().filter((f) => this.state.tab === 'All' || f.name.startsWith(this.state.tab));
+    return { tabs, folders };
+  }
+}
+</script>
+</body>
+</html>

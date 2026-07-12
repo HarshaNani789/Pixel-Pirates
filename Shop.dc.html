@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Shop — Pixel Pirates</title>
+<meta name="description" content="Official Pixel Pirates merchandise: t-shirts, hoodies, toys, figures, collectibles, posters, books and more.">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #0B2A4A; }
+  a { color: #FFC233; } a:hover { color: #FFD75E; }
+  @keyframes pp-sparkle { 0%,100% { opacity: .15; transform: scale(.7); } 50% { opacity: 1; transform: scale(1.2); } }
+  @keyframes pp-pop { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes pp-slidein { from { transform: translateX(100%); } to { transform: translateX(0); } }
+  @keyframes pp-spin3d { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+</style>
+</helmet>
+
+<dc-import name="SiteNav" active-page="Shop" hint-size="100%,66px" style="position:fixed;top:0;left:0;right:0;z-index:900;height:66px"></dc-import>
+
+<!-- Header -->
+<section data-screen-label="Shop header" style="position:relative;background:linear-gradient(180deg,#0E3D66,#1273B5);padding:150px 24px 70px;text-align:center;overflow:hidden">
+  <div style="position:absolute;top:34%;left:9%;width:9px;height:9px;border-radius:50%;background:#FFC233;animation:pp-sparkle 2.4s ease-in-out infinite"></div>
+  <div style="position:absolute;top:52%;right:11%;width:7px;height:7px;border-radius:50%;background:#FFF8EA;animation:pp-sparkle 3s ease-in-out .7s infinite"></div>
+  <div data-reveal="0" style="font-family:Nunito,sans-serif;font-weight:900;font-size:14px;letter-spacing:3px;color:#FFC233">OFFICIAL MERCHANDISE</div>
+  <h1 data-reveal="1" style="margin:12px 0 14px;font-family:Fredoka,sans-serif;font-weight:700;font-size:clamp(42px,6.5vw,76px);color:#FFF8EA;text-shadow:0 4px 0 rgba(0,0,0,.35)">The Treasure <span style="color:#FFC233">Shop</span></h1>
+  <p data-reveal="2" style="font-family:Nunito,sans-serif;font-weight:700;font-size:18px;color:rgba(255,248,234,.85);max-width:520px;margin:0 auto;line-height:1.6">The Episode One collection — made for little pirates and their grown-ups.</p>
+  <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style="position:absolute;bottom:-1px;left:0;width:100%;height:70px"><path d="M0 70 L0 34 C240 6 480 62 720 36 C960 10 1200 58 1440 30 L1440 70 Z" fill="#0B2A4A"/></svg>
+</section>
+
+<!-- COLLECTION BANNER -->
+<section data-screen-label="Collection banner" style="background:#0B2A4A;padding:80px 24px 40px">
+  <div data-reveal="0" style="max-width:1240px;margin:0 auto;position:relative;border-radius:28px;overflow:hidden;border:3px solid rgba(255,194,51,.4);box-shadow:0 30px 70px rgba(0,0,0,.5)">
+    <img src="assets/merch.jpeg" alt="The Pixel Pirates Episode One merchandise collection" style="width:100%;display:block">
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,19,31,.75) 0%,rgba(8,19,31,0) 55%)"></div>
+    <div style="position:absolute;left:clamp(20px,5%,60px);top:50%;transform:translateY(-50%);max-width:340px">
+      <div style="font-family:Nunito,sans-serif;font-weight:900;font-size:13px;letter-spacing:2.5px;color:#FFC233">NEW ARRIVALS</div>
+      <div style="font-family:Fredoka,sans-serif;font-weight:700;font-size:clamp(26px,3.5vw,42px);color:#FFF8EA;line-height:1.1;margin:10px 0 16px;text-shadow:0 3px 0 rgba(0,0,0,.4)">The Lost Treasure Collection</div>
+      <a href="#products" style="display:inline-block;font-family:Fredoka,sans-serif;font-weight:600;font-size:16px;color:#14181F;background:linear-gradient(180deg,#FFD75E,#FFB61E);text-decoration:none;border-radius:999px;padding:12px 26px;box-shadow:0 4px 0 #B57708;transition:transform .15s" style-hover="transform:translateY(-2px)">Shop the Collection</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" data-screen-label="Products" style="background:#0B2A4A;padding:40px 24px 90px">
+  <div style="max-width:1240px;margin:0 auto">
+    <div data-reveal="0" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:38px">
+      <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="8">
+        <button onClick="{{ cat.select }}" style="font-family:Nunito,sans-serif;font-weight:800;font-size:14px;color:{{ cat.color }};background:{{ cat.bg }};border:2px solid {{ cat.border }};border-radius:999px;padding:9px 20px;cursor:pointer;transition:transform .15s,background .2s" style-hover="transform:translateY(-2px)">{{ cat.label }}</button>
+      </sc-for>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:24px">
+      <sc-for list="{{ products }}" as="p" hint-placeholder-count="8">
+        <div style="position:relative;border-radius:24px;overflow:hidden;background:#101823;border:2px solid rgba(255,248,234,.12);box-shadow:0 14px 36px rgba(0,0,0,.35);transition:transform .25s,border-color .25s,box-shadow .25s" style-hover="transform:translateY(-8px);border-color:rgba(255,194,51,.5);box-shadow:0 26px 56px rgba(0,0,0,.5)">
+          <div style="position:relative;height:210px;overflow:hidden;background:linear-gradient(160deg,#E8D5A9,#d9bf85)">
+            <div role="img" aria-label="{{ p.name }}" style="position:absolute;inset:0;background-image:url('assets/merch.jpeg');background-size:300%;background-position:{{ p.crop }};transition:transform .5s" style-hover="transform:scale(1.06)"></div>
+            <sc-if value="{{ p.badge }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:12px;left:12px;font-family:Nunito,sans-serif;font-weight:900;font-size:11px;letter-spacing:1.5px;color:#14181F;background:linear-gradient(180deg,#FFD75E,#FFB61E);border-radius:999px;padding:5px 12px;box-shadow:0 3px 0 rgba(0,0,0,.25)">{{ p.badge }}</div>
+            </sc-if>
+            <button onClick="{{ p.wish }}" aria-label="Add to wishlist" style="position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;background:rgba(16,24,35,.75);display:grid;place-items:center;transition:transform .2s" style-hover="transform:scale(1.15)">
+              <svg width="17" height="17" viewBox="0 0 24 24"><path d="M12 21S3 14.5 3 8.8A4.8 4.8 0 0 1 12 6a4.8 4.8 0 0 1 9 2.8C21 14.5 12 21 12 21Z" fill="{{ p.heartFill }}" stroke="#FF6B5E" stroke-width="2"/></svg>
+            </button>
+            <button onClick="{{ p.view }}" style="position:absolute;left:50%;bottom:12px;transform:translateX(-50%);font-family:Nunito,sans-serif;font-weight:800;font-size:13px;color:#FFF8EA;background:rgba(16,24,35,.85);border:1.5px solid rgba(255,248,234,.3);border-radius:999px;padding:8px 18px;cursor:pointer;backdrop-filter:blur(4px);transition:background .2s" style-hover="background:#14181F">Quick View</button>
+          </div>
+          <div style="padding:16px 18px 20px">
+            <div style="font-family:Nunito,sans-serif;font-weight:900;font-size:11px;letter-spacing:1.5px;color:#2FA8E0">{{ p.cat }}</div>
+            <div style="font-family:Fredoka,sans-serif;font-weight:600;font-size:18px;color:#FFF8EA;margin-top:6px">{{ p.name }}</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:10px">
+              <div style="font-family:Fredoka,sans-serif;font-weight:700;font-size:20px;color:#FFC233">{{ p.price }}</div>
+              <button onClick="{{ p.add }}" style="font-family:Fredoka,sans-serif;font-weight:600;font-size:14px;color:#14181F;background:linear-gradient(180deg,#FFD75E,#FFB61E);border:none;border-radius:999px;padding:9px 18px;cursor:pointer;box-shadow:0 3px 0 #B57708;transition:transform .15s" style-hover="transform:translateY(-2px)" style-active="transform:translateY(2px)">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- LEGO -->
+<section id="lego" data-screen-label="Building sets" style="background:linear-gradient(180deg,#0B2A4A,#08131f);padding:80px 24px 110px">
+  <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:44px;align-items:center">
+    <div>
+      <div data-reveal="0" style="display:inline-block;font-family:Nunito,sans-serif;font-weight:900;font-size:12px;letter-spacing:2px;color:#FFF8EA;background:#D0342C;border-radius:999px;padding:6px 16px;box-shadow:0 3px 0 rgba(0,0,0,.3)">BUILDING SETS · COMING SOON</div>
+      <h2 data-reveal="1" style="margin:14px 0 14px;font-family:Fredoka,sans-serif;font-weight:700;font-size:clamp(34px,4.5vw,52px);color:#FFF8EA">Build the <span style="color:#FFC233">adventure</span></h2>
+      <p data-reveal="2" style="font-family:Nunito,sans-serif;font-weight:600;font-size:16px;color:rgba(255,248,234,.8);line-height:1.65;margin:0 0 24px;max-width:460px">Brick-built ships, islands and treasure caves are on the way — with buildable Pirate Red and Pirate Black minifigures. Drag the model to spin it.</p>
+      <div data-reveal="3" style="display:flex;flex-direction:column;gap:10px;max-width:420px">
+        <sc-for list="{{ sets }}" as="s" hint-placeholder-count="3">
+          <div style="display:flex;align-items:center;gap:14px;background:rgba(16,24,35,.6);border:1.5px solid rgba(255,248,234,.12);border-radius:16px;padding:12px 18px;transition:border-color .2s,transform .2s" style-hover="border-color:rgba(255,194,51,.5);transform:translateX(6px)">
+            <div style="width:40px;height:40px;border-radius:12px;background:{{ s.bg }};display:grid;place-items:center;font-size:19px;box-shadow:inset 0 2px 0 rgba(255,255,255,.35)">{{ s.icon }}</div>
+            <div style="flex:1">
+              <div style="font-family:Fredoka,sans-serif;font-weight:600;font-size:16px;color:#FFF8EA">{{ s.name }}</div>
+              <div style="font-family:Nunito,sans-serif;font-weight:700;font-size:12px;color:rgba(255,248,234,.55)">{{ s.pieces }}</div>
+            </div>
+            <div style="font-family:Nunito,sans-serif;font-weight:900;font-size:10px;letter-spacing:1.5px;color:rgba(255,248,234,.6);background:rgba(255,248,234,.1);border-radius:999px;padding:4px 10px">2027</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div data-reveal="1" style="display:grid;place-items:center">
+      <div data-spin="1" style="width:min(340px,80vw);aspect-ratio:1;cursor:grab;perspective:900px;user-select:none">
+        <div class="pp-model" style="position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .1s linear">
+          <img src="assets/poster-red-black.jpeg" alt="Buildable Pirate Red and Pirate Black" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:28px;border:4px solid rgba(255,194,51,.5);box-shadow:0 30px 70px rgba(0,0,0,.55);backface-visibility:hidden">
+          <div style="position:absolute;inset:0;border-radius:28px;background:linear-gradient(160deg,#14181F,#0E3D66);border:4px solid rgba(255,194,51,.5);transform:rotateY(180deg);backface-visibility:hidden;display:grid;place-items:center">
+            <div style="text-align:center;padding:30px">
+              <div style="font-size:52px">🧱</div>
+              <div style="font-family:Fredoka,sans-serif;font-weight:700;font-size:26px;color:#FFC233;margin-top:10px">487 pieces</div>
+              <div style="font-family:Nunito,sans-serif;font-weight:700;font-size:15px;color:rgba(255,248,234,.75);margin-top:6px;line-height:1.5">Instructions preview and gallery arriving with the first set.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="font-family:Nunito,sans-serif;font-weight:700;font-size:13px;color:rgba(255,248,234,.5);margin-top:14px">↔ drag to rotate</div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK VIEW MODAL -->
+<sc-if value="{{ quickOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeQuick }}" style="position:fixed;inset:0;z-index:1000;background:rgba(8,14,24,.78);backdrop-filter:blur(8px);display:grid;place-items:center;padding:24px">
+    <div onClick="{{ stopClick }}" style="width:min(760px,94vw);border-radius:28px;overflow:hidden;background:#101823;border:3px solid rgba(255,194,51,.5);box-shadow:0 40px 90px rgba(0,0,0,.6);display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));animation:pp-pop .3s ease">
+      <div role="img" aria-label="{{ quick.name }}" style="min-height:280px;background-image:url('assets/merch.jpeg');background-size:300%;background-position:{{ quick.crop }}"></div>
+      <div style="padding:32px">
+        <div style="font-family:Nunito,sans-serif;font-weight:900;font-size:12px;letter-spacing:2px;color:#2FA8E0">{{ quick.cat }}</div>
+        <div style="font-family:Fredoka,sans-serif;font-weight:700;font-size:30px;color:#FFF8EA;margin-top:8px">{{ quick.name }}</div>
+        <div style="font-family:Fredoka,sans-serif;font-weight:700;font-size:26px;color:#FFC233;margin-top:8px">{{ quick.price }}</div>
+        <p style="font-family:Nunito,sans-serif;font-weight:600;font-size:15px;color:rgba(255,248,234,.75);line-height:1.6;margin:14px 0 22px">{{ quick.desc }}</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button onClick="{{ quickAdd }}" style="font-family:Fredoka,sans-serif;font-weight:600;font-size:16px;color:#14181F;background:linear-gradient(180deg,#FFD75E,#FFB61E);border:none;border-radius:999px;padding:13px 26px;cursor:pointer;box-shadow:0 4px 0 #B57708;transition:transform .15s" style-hover="transform:translateY(-2px)">Add to Cart</button>
+          <button onClick="{{ closeQuick }}" style="font-family:Fredoka,sans-serif;font-weight:600;font-size:16px;color:#FFF8EA;background:rgba(255,248,234,.1);border:2px solid rgba(255,248,234,.3);border-radius:999px;padding:13px 26px;cursor:pointer" style-hover="background:rgba(255,248,234,.2)">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<!-- CART DRAWER -->
+<sc-if value="{{ cartOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeCart }}" style="position:fixed;inset:0;z-index:1000;background:rgba(8,14,24,.6)">
+    <div onClick="{{ stopClick }}" style="position:absolute;top:0;right:0;bottom:0;width:min(380px,92vw);background:#101823;border-left:3px solid rgba(255,194,51,.4);box-shadow:-30px 0 70px rgba(0,0,0,.5);padding:28px;display:flex;flex-direction:column;animation:pp-slidein .3s cubic-bezier(.2,.9,.3,1)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div style="font-family:Fredoka,sans-serif;font-weight:700;font-size:26px;color:#FFF8EA">Your Chest</div>
+        <button onClick="{{ closeCart }}" style="width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,248,234,.1);color:#FFF8EA;font-family:Nunito,sans-serif;font-weight:800" style-hover="background:#D0342C">✕</button>
+      </div>
+      <div style="flex:1;overflow:auto;display:flex;flex-direction:column;gap:12px">
+        <sc-for list="{{ cartItems }}" as="ci" hint-placeholder-count="2">
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(255,248,234,.06);border-radius:16px;padding:12px 14px">
+            <div style="width:52px;height:52px;border-radius:12px;background-image:url('assets/merch.jpeg');background-size:300%;background-position:{{ ci.crop }};flex-shrink:0"></div>
+            <div style="flex:1">
+              <div style="font-family:Fredoka,sans-serif;font-weight:600;font-size:15px;color:#FFF8EA">{{ ci.name }}</div>
+              <div style="font-family:Nunito,sans-serif;font-weight:800;font-size:13px;color:#FFC233">{{ ci.price }} × {{ ci.qty }}</div>
+            </div>
+            <button onClick="{{ ci.remove }}" aria-label="Remove" style="width:28px;height:28px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,248,234,.1);color:rgba(255,248,234,.7);font-weight:800" style-hover="background:#D0342C;color:#FFF8EA">–</button>
+          </div>
+        </sc-for>
+        <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align:center;padding:50px 10px;font-family:Nunito,sans-serif;font-weight:700;font-size:15px;color:rgba(255,248,234,.5)">Your treasure chest is empty.<br>Go plunder the shop!</div>
+        </sc-if>
+      </div>
+      <div style="border-top:1.5px solid rgba(255,248,234,.12);padding-top:18px;margin-top:14px">
+        <div style="display:flex;justify-content:space-between;font-family:Fredoka,sans-serif;font-weight:700;font-size:20px;color:#FFF8EA;margin-bottom:14px">Total <span style="color:#FFC233">{{ cartTotal }}</span></div>
+        <button style="width:100%;font-family:Fredoka,sans-serif;font-weight:600;font-size:17px;color:#14181F;background:linear-gradient(180deg,#FFD75E,#FFB61E);border:none;border-radius:999px;padding:14px;cursor:pointer;box-shadow:0 4px 0 #B57708;transition:transform .15s" style-hover="transform:translateY(-2px)">Checkout (demo)</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<!-- Floating cart button -->
+<button onClick="{{ openCart }}" aria-label="Open cart" style="position:fixed;right:24px;bottom:24px;z-index:950;width:62px;height:62px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(180deg,#FFD75E,#FFB61E);box-shadow:0 5px 0 #B57708,0 16px 34px rgba(0,0,0,.45);display:grid;place-items:center;transition:transform .2s" style-hover="transform:scale(1.1)">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 4h2l2.4 12h11.2L21 8H7M9 20h.01M17 20h.01" stroke="#14181F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <sc-if value="{{ cartHasItems }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;top:-4px;right:-4px;min-width:24px;height:24px;border-radius:12px;background:#D0342C;color:#FFF8EA;font-family:Nunito,sans-serif;font-weight:900;font-size:13px;display:grid;place-items:center;padding:0 6px;border:2.5px solid #0B2A4A">{{ cartCount }}</div>
+  </sc-if>
+</button>
+
+<dc-import name="SiteFooter" wave-bg="#08131f" hint-size="100%,420px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { cat: 'All', cart: {}, wished: [], quickIdx: -1, cartOpen: false };
+
+  _products() {
+    // crops are object-positions into the merch flat-lay photo
+    const P = (name, cat, price, crop, badge, desc) => ({ name, cat, price, crop, badge, desc });
+    return [
+      P('Episode One Tee', 'T-Shirts', '$24', '18% 22%', 'NEW', 'Soft cotton tee with the full Lost Treasure island print. Adult sizes S–XXL.'),
+      P('Kids Adventure Tee', 'Kids T-Shirts', '$18', '22% 30%', 'NEW', 'The same legendary print, sized for the smallest members of the crew. Ages 3–12.'),
+      P('Skull & Crossbones Cap', 'Caps', '$19', '8% 78%', false, 'Adjustable snapback with the embroidered Pixel Pirates crest.'),
+      P('Treasure Backpack', 'Bags', '$34', '52% 45%', 'BESTSELLER', 'Big enough for maps, snacks and one very important compass. Padded straps.'),
+      P('Adventure Bottle', 'Bottle', '$16', '68% 40%', false, 'Leak-proof 500ml bottle — keeps grog (juice) cold all voyage long.'),
+      P('Pirate Red Figure', 'Figures', '$22', '28% 72%', 'NEW', 'Highly detailed 10cm Pirate Red figure with movable arms and swappable bandana.'),
+      P('Pirate Black Figure', 'Figures', '$22', '38% 72%', 'NEW', 'Pirate Black in his captain hat, complete with tiny treasure map accessory.'),
+      P('Episode One Box Set', 'Collectibles', '$49', '52% 78%', 'LIMITED', 'Collector box with both figures, badges and an exclusive art card.'),
+      P('Sticker & Badge Pack', 'Stickers', '$8', '42% 88%', false, '24 die-cut stickers plus two enamel-look badges of Red and Black.'),
+      P('Skull Keychain', 'Keychains', '$9', '78% 82%', false, 'A pixel skull for your keys, backpack or treasure chest zipper.'),
+      P('Island Poster', 'Posters', '$14', '85% 15%', false, 'A2 poster of the Lost Treasure key art, printed on heavyweight matte paper.'),
+      P('Storybook: The Lost Treasure', 'Books', '$15', '88% 80%', 'NEW', 'The first voyage retold as a 48-page bedtime storybook with full-color art.'),
+      P('Adventure Lunch Box', 'Lunch Box', '$21', '60% 60%', false, 'Insulated lunch box with a secret inner map pocket.'),
+      P('Gift Card', 'Gift Cards', '$25', '50% 12%', false, 'The gift every pirate wants: let them pick their own treasure.'),
+    ];
+  }
+
+  componentDidMount() {
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    revealEls.forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(34px)';
+      el.style.transition = 'opacity .7s ease, transform .7s cubic-bezier(.2,.9,.3,1)';
+    });
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) {
+          const delay = (parseInt(en.target.getAttribute('data-reveal')) || 0) * 110;
+          setTimeout(() => { en.target.style.opacity = '1'; en.target.style.transform = 'none'; }, delay);
+          this._io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach((el) => this._io.observe(el));
+
+    // Drag-to-rotate model
+    const zone = document.querySelector('[data-spin]');
+    if (zone) {
+      const model = zone.querySelector('.pp-model');
+      let rot = 0, dragging = false, lastX = 0, idleTimer = null;
+      const idle = () => { rot += 0.15; model.style.transform = 'rotateY(' + rot + 'deg)'; this._raf = requestAnimationFrame(idle); };
+      this._raf = requestAnimationFrame(idle);
+      zone.addEventListener('pointerdown', (e) => { dragging = true; lastX = e.clientX; cancelAnimationFrame(this._raf); zone.setPointerCapture(e.pointerId); zone.style.cursor = 'grabbing'; });
+      zone.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        rot += (e.clientX - lastX) * 0.6; lastX = e.clientX;
+        model.style.transform = 'rotateY(' + rot + 'deg)';
+      });
+      const stop = () => { if (!dragging) return; dragging = false; zone.style.cursor = 'grab'; clearTimeout(idleTimer); idleTimer = setTimeout(() => { this._raf = requestAnimationFrame(idle); }, 1200); };
+      zone.addEventListener('pointerup', stop); zone.addEventListener('pointercancel', stop);
+    }
+  }
+  componentWillUnmount() { if (this._io) this._io.disconnect(); cancelAnimationFrame(this._raf); }
+
+  renderVals() {
+    const all = this._products();
+    const catNames = ['All', 'T-Shirts', 'Kids T-Shirts', 'Caps', 'Bags', 'Figures', 'Collectibles', 'Stickers', 'Keychains', 'Posters', 'Books', 'Lunch Box', 'Bottle', 'Gift Cards'];
+    const categories = catNames.map((label) => {
+      const on = label === this.state.cat;
+      return {
+        label,
+        color: on ? '#14181F' : 'rgba(255,248,234,.85)',
+        bg: on ? 'linear-gradient(180deg,#FFD75E,#FFB61E)' : 'rgba(16,24,35,.6)',
+        border: on ? '#B57708' : 'rgba(255,248,234,.18)',
+        select: () => this.setState({ cat: label }),
+      };
+    });
+    const visible = all.filter((p) => this.state.cat === 'All' || p.cat === this.state.cat);
+    const products = visible.map((p) => {
+      const idx = all.indexOf(p);
+      const wished = this.state.wished.includes(idx);
+      return {
+        ...p,
+        heartFill: wished ? '#FF6B5E' : 'transparent',
+        wish: () => this.setState({ wished: wished ? this.state.wished.filter((i) => i !== idx) : [...this.state.wished, idx] }),
+        add: () => this.setState({ cart: { ...this.state.cart, [idx]: (this.state.cart[idx] || 0) + 1 } }),
+        view: () => this.setState({ quickIdx: idx }),
+      };
+    });
+
+    const cartEntries = Object.entries(this.state.cart).filter(([, q]) => q > 0);
+    const cartItems = cartEntries.map(([idx, qty]) => {
+      const p = all[idx];
+      return { name: p.name, price: p.price, qty: String(qty), crop: p.crop,
+        remove: () => { const c = { ...this.state.cart }; c[idx] -= 1; if (c[idx] <= 0) delete c[idx]; this.setState({ cart: c }); } };
+    });
+    const total = cartEntries.reduce((sum, [idx, q]) => sum + parseInt(all[idx].price.slice(1)) * q, 0);
+    const count = cartEntries.reduce((s, [, q]) => s + q, 0);
+
+    const q = all[this.state.quickIdx];
+    return {
+      categories, products,
+      quickOpen: this.state.quickIdx >= 0,
+      quick: q || { name: '', cat: '', price: '', desc: '', crop: 'center' },
+      quickAdd: () => { const idx = this.state.quickIdx; this.setState({ cart: { ...this.state.cart, [idx]: (this.state.cart[idx] || 0) + 1 }, quickIdx: -1, cartOpen: true }); },
+      closeQuick: () => this.setState({ quickIdx: -1 }),
+      cartOpen: this.state.cartOpen,
+      openCart: () => this.setState({ cartOpen: true }),
+      closeCart: () => this.setState({ cartOpen: false }),
+      cartItems, cartEmpty: cartEntries.length === 0, cartHasItems: count > 0,
+      cartTotal: '$' + total, cartCount: String(count),
+      stopClick: (e) => e.stopPropagation(),
+      sets: [
+        { icon: '⛵', name: 'The Crimson Sail Ship', pieces: '487 pieces · 2 minifigs', bg: 'linear-gradient(160deg,#E04A40,#C02D24)' },
+        { icon: '🏝️', name: 'Treasure Island Hideout', pieces: '356 pieces · 3 minifigs', bg: 'linear-gradient(160deg,#3E9C55,#2c7440)' },
+        { icon: '💎', name: 'Secret Cave Vault', pieces: '214 pieces · 1 minifig', bg: 'linear-gradient(160deg,#7C4DBE,#5a338f)' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
