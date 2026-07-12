@@ -18,6 +18,10 @@
   @keyframes pp-ping { 0% { transform: scale(.7); opacity: .9; } 100% { transform: scale(2.4); opacity: 0; } }
   @keyframes pp-sparkle { 0%,100% { opacity: .15; transform: scale(.7); } 50% { opacity: 1; transform: scale(1.2); } }
   @keyframes pp-pop { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
+  @media (max-width: 940px) {
+    .pp-map-grid { grid-template-columns: 1fr !important; }
+    .pp-map-panel { position: static !important; }
+  }
 </style>
 </helmet>
 
@@ -47,9 +51,9 @@
         </button>
       </sc-for>
     </div>
-    <div data-reveal="1" style="position:sticky;top:90px;border-radius:28px;overflow:hidden;background:#101823;border:3px solid {{ sel.border }};box-shadow:0 24px 60px rgba(0,0,0,.5);animation:pp-pop .35s ease" key="{{ sel.name }}">
+    <div data-reveal="1" class="pp-map-panel" style="position:sticky;top:90px;border-radius:28px;overflow:hidden;background:#101823;border:3px solid {{ sel.border }};box-shadow:0 24px 60px rgba(0,0,0,.5);animation:pp-pop .35s ease" key="{{ sel.name }}">
       <div style="height:210px;overflow:hidden;position:relative">
-        <img src="{{ sel.img }}" alt="{{ sel.name }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ sel.pos }}">
+        <div role="img" aria-label="{{ sel.name }}" style="position:absolute;inset:0;background-image:url('{{ sel.img }}');background-size:cover;background-position:{{ sel.pos }}"></div>
         <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,24,35,0) 50%,#101823 100%)"></div>
       </div>
       <div style="padding:6px 26px 26px">

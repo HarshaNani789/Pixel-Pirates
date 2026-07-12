@@ -13,6 +13,15 @@
 <style>
   @keyframes pp-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
   @keyframes pp-sparkle { 0%,100% { opacity: .3; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.15); } }
+  @keyframes pp-menuin { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+  .pp-burger { display: none !important; }
+  @media (max-width: 1080px) {
+    .pp-nav-links, .pp-nav-icons { display: none !important; }
+    .pp-burger { display: grid !important; }
+  }
+  @media (max-width: 480px) {
+    .pp-cta { display: none !important; }
+  }
 </style>
 </helmet>
 <div style="position:fixed;top:0;left:0;right:0;z-index:900;transition:background .35s ease, box-shadow .35s ease, backdrop-filter .35s ease;background:{{ navBg }};box-shadow:{{ navShadow }};backdrop-filter:{{ navBlur }};-webkit-backdrop-filter:{{ navBlur }}">
@@ -28,7 +37,7 @@
         <a href="{{ lnk.href }}" style="font-family:Nunito,sans-serif;font-weight:800;font-size:14px;text-decoration:none;padding:8px 13px;border-radius:999px;color:{{ lnk.color }};background:{{ lnk.bg }};transition:background .2s, transform .2s" style-hover="background:rgba(255,194,51,.18);color:#FFC233;transform:translateY(-2px)">{{ lnk.label }}</a>
       </sc-for>
     </nav>
-    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+    <div class="pp-nav-icons" style="display:flex;align-items:center;gap:8px">
       <sc-for list="{{ icons }}" as="ic" hint-placeholder-count="3">
         <button title="{{ ic.label }}" onClick="{{ openTeaser }}" style="width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,248,234,.12);display:grid;place-items:center;color:#FFF8EA;transition:background .2s, transform .2s" style-hover="background:rgba(255,194,51,.3);transform:scale(1.1)">
           <span style="display:contents">{{ ic.svg }}</span>
@@ -39,8 +48,24 @@
         Watch Trailer
       </button>
     </div>
+    <button onClick="{{ toggleMenu }}" aria-label="Menu" class="pp-burger" style="width:42px;height:42px;border-radius:12px;border:none;cursor:pointer;background:rgba(255,248,234,.14);place-items:center;color:#FFF8EA;flex-shrink:0">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="{{ burgerPath }}" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+    </button>
   </div>
 </div>
+
+<sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:890;background:linear-gradient(180deg,#0B2A4A,#08131f);padding:96px 24px 40px;overflow:auto;animation:pp-menuin .25s ease">
+    <nav style="display:flex;flex-direction:column;gap:6px;max-width:420px;margin:0 auto">
+      <sc-for list="{{ links }}" as="lnk" hint-placeholder-count="7">
+        <a href="{{ lnk.href }}" onClick="{{ closeMenu }}" style="font-family:Fredoka,sans-serif;font-weight:600;font-size:24px;text-decoration:none;padding:14px 20px;border-radius:18px;color:{{ lnk.color }};background:{{ lnk.mobileBg }};transition:background .2s" style-hover="background:rgba(255,194,51,.18)">{{ lnk.label }}</a>
+      </sc-for>
+      <button onClick="{{ openTeaserFromMenu }}" style="margin-top:16px;font-family:Fredoka,sans-serif;font-weight:600;font-size:19px;color:#14181F;background:linear-gradient(180deg,#FFD75E,#FFB61E);border:none;border-radius:999px;padding:15px 20px;cursor:pointer;box-shadow:0 5px 0 #B57708;display:flex;align-items:center;justify-content:center;gap:10px">
+        <svg width="16" height="16" viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5-9-5.5Z" fill="#14181F"/></svg>Watch Trailer
+      </button>
+    </nav>
+  </div>
+</sc-if>
 
 <sc-if value="{{ teaserOpen }}" hint-placeholder-val="{{ false }}">
   <div onClick="{{ closeTeaser }}" style="position:fixed;inset:0;z-index:1000;background:rgba(8,14,24,.78);backdrop-filter:blur(8px);display:grid;place-items:center;padding:24px">
@@ -66,7 +91,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;140px&quot;},&quot;activePage&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Home&quot;,&quot;Characters&quot;,&quot;Fun &amp; Games&quot;,&quot;Discover&quot;,&quot;Shop&quot;,&quot;Media Hub&quot;],&quot;default&quot;:&quot;Home&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 class Component extends DCLogic {
-  state = { solid: false, teaserOpen: false };
+  state = { solid: false, teaserOpen: false, menuOpen: false };
 
   componentDidMount() {
     this._onScroll = () => {
@@ -99,6 +124,7 @@ class Component extends DCLogic {
       label, href,
       color: label === active ? '#14181F' : 'rgba(255,248,234,.92)',
       bg: label === active ? 'linear-gradient(180deg,#FFD75E,#FFB61E)' : 'transparent',
+      mobileBg: label === active ? 'linear-gradient(180deg,#FFD75E,#FFB61E)' : 'rgba(255,248,234,.06)',
     }));
     const svg = (d) => React.createElement('svg', { width: 17, height: 17, viewBox: '0 0 24 24', fill: 'none' },
       React.createElement('path', { d, stroke: 'currentColor', strokeWidth: 2.2, strokeLinecap: 'round', strokeLinejoin: 'round' }));
@@ -113,6 +139,11 @@ class Component extends DCLogic {
       navShadow: this.state.solid ? '0 10px 30px rgba(4,12,24,.45)' : 'none',
       navBlur: this.state.solid ? 'blur(12px)' : 'none',
       teaserOpen: this.state.teaserOpen,
+      menuOpen: this.state.menuOpen,
+      burgerPath: this.state.menuOpen ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16',
+      toggleMenu: () => this.setState({ menuOpen: !this.state.menuOpen }),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      openTeaserFromMenu: () => this.setState({ menuOpen: false, teaserOpen: true }),
       openTeaser: () => this.setState({ teaserOpen: true }),
       closeTeaser: () => this.setState({ teaserOpen: false }),
       stopClick: (e) => e.stopPropagation(),

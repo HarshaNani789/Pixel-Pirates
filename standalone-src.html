@@ -4,6 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<meta name="ext-resource-dependency" content="assets/poster-red-black.jpeg" data-resource-id="poster" />
+<meta name="ext-resource-dependency" content="assets/lobby.jpeg" data-resource-id="lobby" />
+<meta name="ext-resource-dependency" content="assets/worldmap.jpeg" data-resource-id="worldmap" />
+<meta name="ext-resource-dependency" content="assets/levelup.jpeg" data-resource-id="levelup" />
+<meta name="ext-resource-dependency" content="assets/merch.jpeg" data-resource-id="merch" />
+<meta name="ext-resource-dependency" content="assets/environment-sheet.jpeg" data-resource-id="envsheet" />
+<template id="__bundler_thumbnail" data-bg-color="#0E3D66">
+  <svg viewBox="-9 -9 42 42" xmlns="http://www.w3.org/2000/svg">
+    <rect x="-9" y="-9" width="42" height="42" fill="#0E3D66"/>
+    <path d="M12 3c-4.4 0-8 3.1-8 7 0 2 .9 3.6 2.4 4.8l-.4 3 3-1.2c.9.3 2 .4 3 .4s2.1-.1 3-.4l3 1.2-.4-3C19.1 13.6 20 12 20 10c0-3.9-3.6-7-8-7Z" fill="#FFC233"/>
+    <circle cx="9" cy="10" r="1.7" fill="#0E3D66"/>
+    <circle cx="15" cy="10" r="1.7" fill="#0E3D66"/>
+    <rect x="10.6" y="13.2" width="2.8" height="1.6" rx=".8" fill="#0E3D66"/>
+  </svg>
+</template>
 </head>
 <body>
 <x-dc>
@@ -23,10 +38,85 @@
   @keyframes pp-compass { 0% { transform: rotate(-25deg); } 30% { transform: rotate(38deg); } 55% { transform: rotate(-12deg); } 80% { transform: rotate(20deg); } 100% { transform: rotate(-25deg); } }
   @keyframes pp-wavemove { from { transform: translateX(0); } to { transform: translateX(-720px); } }
   @keyframes pp-fog { 0%,100% { transform: translateX(-4%); opacity:.5 } 50% { transform: translateX(4%); opacity:.8 } }
+
+  @keyframes pp-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes pp-menuin { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+  .pp-burger { display: none !important; }
+  @media (max-width: 1080px) {
+    .pp-nav-links, .pp-nav-icons { display: none !important; }
+    .pp-burger { display: grid !important; }
+  }
+  @media (max-width: 900px) { .pp-footer-grid { grid-template-columns: 1fr 1fr !important; } }
+  @media (max-width: 540px) { .pp-footer-grid { grid-template-columns: 1fr !important; } }
 </style>
 </helmet>
 
-<dc-import name="SiteNav" active-page="Home" hint-size="100%,66px" style="position:fixed;top:0;left:0;right:0;z-index:900;height:66px"></dc-import>
+
+<div style="position:fixed;top:0;left:0;right:0;z-index:900;transition:background .35s ease, box-shadow .35s ease, backdrop-filter .35s ease;background:{{ navBg }};box-shadow:{{ navShadow }};backdrop-filter:{{ navBlur }};-webkit-backdrop-filter:{{ navBlur }}">
+  <div style="max-width:1440px;margin:0 auto;display:flex;align-items:center;gap:20px;padding:12px 28px">
+    <a href="#" style="display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(160deg,#FFC233,#E0921F);display:grid;place-items:center;box-shadow:0 3px 0 rgba(0,0,0,.35), inset 0 2px 0 rgba(255,255,255,.45);animation:pp-float 4s ease-in-out infinite">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3c-4.4 0-8 3.1-8 7 0 2 .9 3.6 2.4 4.8l-.4 3 3-1.2c.9.3 2 .4 3 .4s2.1-.1 3-.4l3 1.2-.4-3C19.1 13.6 20 12 20 10c0-3.9-3.6-7-8-7Z" fill="#14181F"/><circle cx="9" cy="10" r="1.7" fill="#FFC233"/><circle cx="15" cy="10" r="1.7" fill="#FFC233"/><rect x="10.6" y="13.2" width="2.8" height="1.6" rx=".8" fill="#FFC233"/></svg>
+      </div>
+      <div style="font-family:Fredoka,sans-serif;font-weight:700;font-size:20px;line-height:1;letter-spacing:.5px;color:#FFF8EA;text-shadow:0 2px 0 rgba(0,0,0,.4)">PIXEL<span style="color:#FFC233"> PIRATES</span></div>
+    </a>
+    <nav style="display:flex;align-items:center;gap:2px;flex:1;justify-content:center;flex-wrap:wrap" class="pp-nav-links">
+      <sc-for list="{{ links }}" as="lnk" hint-placeholder-count="7">
+        <a href="{{ lnk.href }}" style="font-family:Nunito,sans-serif;font-weight:800;font-size:14px;text-decoration:none;padding:8px 13px;border-radius:999px;color:{{ lnk.color }};background:{{ lnk.bg }};transition:background .2s, transform .2s" style-hover="background:rgba(255,194,51,.18);color:#FFC233;transform:translateY(-2px)">{{ lnk.label }}</a>
+      </sc-for>
+    </nav>
+    <div class="pp-nav-icons" style="display:flex;align-items:center;gap:8px">
+      <sc-for list="{{ icons }}" as="ic" hint-placeholder-count="3">
+        <button title="{{ ic.label }}" onClick="{{ openTeaser }}" style="width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,248,234,.12);display:grid;place-items:center;color:#FFF8EA;transition:background .2s, transform .2s" style-hover="background:rgba(255,194,51,.3);transform:scale(1.1)">
+          <span style="display:contents">{{ ic.svg }}</span>
+        </button>
+      </sc-for>
+      <button onClick="{{ openTeaser }}" style="font-family:Fredoka,sans-serif;font-weight:600;font-size:15px;letter-spacing:.3px;color:#14181F;background:linear-gradient(180deg,#FFD75E,#FFB61E);border:none;border-radius:999px;padding:10px 20px;cursor:pointer;box-shadow:0 4px 0 #B57708, 0 8px 16px rgba(0,0,0,.3);transition:transform .15s, box-shadow .15s;display:flex;align-items:center;gap:8px" style-hover="transform:translateY(-2px);box-shadow:0 6px 0 #B57708, 0 12px 20px rgba(0,0,0,.35)" style-active="transform:translateY(2px);box-shadow:0 2px 0 #B57708">
+        <svg width="16" height="16" viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5-9-5.5Z" fill="#14181F"/></svg>
+        Watch Trailer
+      </button>
+    </div>
+    <button onClick="{{ toggleMenu }}" aria-label="Menu" class="pp-burger" style="width:42px;height:42px;border-radius:12px;border:none;cursor:pointer;background:rgba(255,248,234,.14);place-items:center;color:#FFF8EA;flex-shrink:0">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="{{ burgerPath }}" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:890;background:linear-gradient(180deg,#0B2A4A,#08131f);padding:96px 24px 40px;overflow:auto;animation:pp-menuin .25s ease">
+    <nav style="display:flex;flex-direction:column;gap:6px;max-width:420px;margin:0 auto">
+      <sc-for list="{{ links }}" as="lnk" hint-placeholder-count="7">
+        <a href="{{ lnk.href }}" onClick="{{ closeMenu }}" style="font-family:Fredoka,sans-serif;font-weight:600;font-size:24px;text-decoration:none;padding:14px 20px;border-radius:18px;color:{{ lnk.color }};background:{{ lnk.mobileBg }};transition:background .2s" style-hover="background:rgba(255,194,51,.18)">{{ lnk.label }}</a>
+      </sc-for>
+      <button onClick="{{ openTeaserFromMenu }}" style="margin-top:16px;font-family:Fredoka,sans-serif;font-weight:600;font-size:19px;color:#14181F;background:linear-gradient(180deg,#FFD75E,#FFB61E);border:none;border-radius:999px;padding:15px 20px;cursor:pointer;box-shadow:0 5px 0 #B57708;display:flex;align-items:center;justify-content:center;gap:10px">
+        <svg width="16" height="16" viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5-9-5.5Z" fill="#14181F"/></svg>Watch Trailer
+      </button>
+    </nav>
+  </div>
+</sc-if>
+
+<sc-if value="{{ teaserOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeTeaser }}" style="position:fixed;inset:0;z-index:1000;background:rgba(8,14,24,.78);backdrop-filter:blur(8px);display:grid;place-items:center;padding:24px">
+    <div onClick="{{ stopClick }}" style="position:relative;width:min(680px,94vw);border-radius:28px;overflow:hidden;background:#101823;box-shadow:0 40px 90px rgba(0,0,0,.6);border:3px solid rgba(255,194,51,.5)">
+      <div style="position:relative;height:300px;overflow:hidden">
+        <img src="assets/poster-red-black.jpeg" alt="Pirate Red and Pirate Black" style="width:100%;height:100%;object-fit:cover;object-position:center 20%">
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,24,35,0) 40%,#101823 100%)"></div>
+        <div style="position:absolute;top:16px;right:16px;width:14px;height:14px;border-radius:50%;background:#FFC233;animation:pp-sparkle 1.6s ease-in-out infinite"></div>
+        <div style="position:absolute;top:40px;right:44px;width:8px;height:8px;border-radius:50%;background:#FFF8EA;animation:pp-sparkle 2.2s ease-in-out .4s infinite"></div>
+      </div>
+      <div style="padding:8px 36px 36px;text-align:center">
+        <div style="font-family:Fredoka,sans-serif;font-weight:700;font-size:38px;color:#FFC233;text-shadow:0 3px 0 rgba(0,0,0,.4)">Trailer Coming Soon</div>
+        <p style="font-family:Nunito,sans-serif;font-weight:600;font-size:17px;color:rgba(255,248,234,.85);margin:10px auto 22px;max-width:440px;line-height:1.55">The crew is still polishing the cannons! The official Pixel Pirates trailer drops with Season 1. Sign up below and be the first aboard.</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <a href="#news" onClick="{{ closeTeaser }}" style="font-family:Fredoka,sans-serif;font-weight:600;font-size:16px;color:#14181F;background:linear-gradient(180deg,#FFD75E,#FFB61E);text-decoration:none;border-radius:999px;padding:12px 26px;box-shadow:0 4px 0 #B57708;transition:transform .15s" style-hover="transform:translateY(-2px)">Notify Me</a>
+          <button onClick="{{ closeTeaser }}" style="font-family:Fredoka,sans-serif;font-weight:600;font-size:16px;color:#FFF8EA;background:rgba(255,248,234,.12);border:2px solid rgba(255,248,234,.3);border-radius:999px;padding:12px 26px;cursor:pointer;transition:background .2s" style-hover="background:rgba(255,248,234,.22)">Back to the Island</button>
+        </div>
+      </div>
+      <button onClick="{{ closeTeaser }}" style="position:absolute;top:14px;left:14px;width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;background:rgba(16,24,35,.7);color:#FFF8EA;font-size:18px;font-family:Nunito,sans-serif;font-weight:800" style-hover="background:#D0342C">✕</button>
+    </div>
+  </div>
+</sc-if>
+
 
 <!-- ============ HERO ============ -->
 <section data-screen-label="Hero" style="position:relative;min-height:100svh;overflow:hidden;display:grid;place-items:center;background:linear-gradient(180deg,#0E3D66 0%,#1273B5 45%,#2FA8E0 100%)">
@@ -49,7 +139,7 @@
     <h1 data-reveal="1" style="margin:0;font-family:Fredoka,sans-serif;font-weight:700;font-size:clamp(56px,9.5vw,138px);line-height:.95;letter-spacing:1px;color:#FFF8EA;text-shadow:0 4px 0 #B57708,0 10px 0 rgba(10,18,32,.55),0 24px 50px rgba(0,0,0,.55)">PIXEL<br><span style="color:#FFC233;text-shadow:0 4px 0 #8a5a06,0 10px 0 rgba(10,18,32,.55),0 24px 50px rgba(0,0,0,.55)">PIRATES</span></h1>
     <p data-reveal="2" style="font-family:Nunito,sans-serif;font-weight:800;font-size:clamp(18px,2.4vw,26px);color:#FFF8EA;text-shadow:0 2px 8px rgba(0,0,0,.6);margin:26px auto 36px;line-height:1.4">Two unlikely pirates.<br>One legendary adventure.</p>
     <div data-reveal="3" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-      <a href="Characters.dc.html" data-magnet="1" style="font-family:Fredoka,sans-serif;font-weight:600;font-size:19px;color:#14181F;background:linear-gradient(180deg,#FFD75E,#FFB61E);text-decoration:none;border-radius:999px;padding:16px 34px;box-shadow:0 6px 0 #B57708,0 16px 34px rgba(0,0,0,.4);display:inline-flex;align-items:center;gap:10px;transition:transform .15s,box-shadow .15s" style-hover="box-shadow:0 8px 0 #B57708,0 22px 40px rgba(0,0,0,.45)">Meet the Pirates
+      <a href="#characters" data-magnet="1" style="font-family:Fredoka,sans-serif;font-weight:600;font-size:19px;color:#14181F;background:linear-gradient(180deg,#FFD75E,#FFB61E);text-decoration:none;border-radius:999px;padding:16px 34px;box-shadow:0 6px 0 #B57708,0 16px 34px rgba(0,0,0,.4);display:inline-flex;align-items:center;gap:10px;transition:transform .15s,box-shadow .15s" style-hover="box-shadow:0 8px 0 #B57708,0 22px 40px rgba(0,0,0,.45)">Meet the Pirates
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-6-6 6 6-6 6" stroke="#14181F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       <a href="#season" data-magnet="1" style="font-family:Fredoka,sans-serif;font-weight:600;font-size:19px;color:#FFF8EA;background:rgba(10,18,32,.5);border:2.5px solid rgba(255,248,234,.55);text-decoration:none;border-radius:999px;padding:16px 34px;backdrop-filter:blur(6px);display:inline-flex;align-items:center;gap:10px;transition:transform .15s,background .2s" style-hover="background:rgba(10,18,32,.75)">
@@ -61,14 +151,14 @@
 </section>
 
 <!-- ============ CHARACTERS TEASER ============ -->
-<section data-screen-label="Characters teaser" style="position:relative;background:linear-gradient(180deg,#0E3D66,#0B2A4A);padding:90px 24px 110px;overflow:hidden">
+<section id="characters" data-screen-label="Characters teaser" style="position:relative;background:linear-gradient(180deg,#0E3D66,#0B2A4A);padding:90px 24px 110px;overflow:hidden">
   <div style="max-width:1240px;margin:0 auto">
     <div data-reveal="0" style="text-align:center;margin-bottom:54px">
       <div style="font-family:Nunito,sans-serif;font-weight:900;font-size:14px;letter-spacing:3px;color:#2FA8E0;margin-bottom:10px">THE CREW</div>
       <h2 style="margin:0;font-family:Fredoka,sans-serif;font-weight:700;font-size:clamp(36px,5vw,58px);color:#FFF8EA;text-shadow:0 3px 0 rgba(0,0,0,.35)">Meet the <span style="color:#FFC233">Pirates</span></h2>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px;max-width:980px;margin:0 auto">
-      <a href="Characters.dc.html#red" data-reveal="1" data-tilt="1" style="position:relative;display:block;text-decoration:none;border-radius:28px;overflow:hidden;background:#101823;box-shadow:0 20px 50px rgba(0,0,0,.45);border:3px solid rgba(208,52,44,.55);transition:transform .25s,box-shadow .25s;will-change:transform" style-hover="box-shadow:0 34px 70px rgba(0,0,0,.55)">
+      <a href="#characters" data-reveal="1" data-tilt="1" style="position:relative;display:block;text-decoration:none;border-radius:28px;overflow:hidden;background:#101823;box-shadow:0 20px 50px rgba(0,0,0,.45);border:3px solid rgba(208,52,44,.55);transition:transform .25s,box-shadow .25s;will-change:transform" style-hover="box-shadow:0 34px 70px rgba(0,0,0,.55)">
         <div style="height:380px;position:relative;overflow:hidden">
           <div role="img" aria-label="Pirate Red" style="position:absolute;top:0;left:0;width:200%;height:100%;background-image:url('assets/poster-red-black.jpeg');background-size:cover;background-position:center 22%;transition:transform .5s" style-hover="transform:scale(1.05)"></div>
         </div>
@@ -79,7 +169,7 @@
         </div>
         <div style="position:absolute;top:16px;left:16px;font-family:Nunito,sans-serif;font-weight:900;font-size:12px;letter-spacing:1.5px;color:#FFF8EA;background:#D0342C;border-radius:999px;padding:6px 14px;box-shadow:0 3px 0 rgba(0,0,0,.3)">BRAVE · FUNNY · OPTIMISTIC</div>
       </a>
-      <a href="Characters.dc.html#black" data-reveal="2" data-tilt="1" style="position:relative;display:block;text-decoration:none;border-radius:28px;overflow:hidden;background:#101823;box-shadow:0 20px 50px rgba(0,0,0,.45);border:3px solid rgba(255,194,51,.55);transition:transform .25s,box-shadow .25s;will-change:transform" style-hover="box-shadow:0 34px 70px rgba(0,0,0,.55)">
+      <a href="#characters" data-reveal="2" data-tilt="1" style="position:relative;display:block;text-decoration:none;border-radius:28px;overflow:hidden;background:#101823;box-shadow:0 20px 50px rgba(0,0,0,.45);border:3px solid rgba(255,194,51,.55);transition:transform .25s,box-shadow .25s;will-change:transform" style-hover="box-shadow:0 34px 70px rgba(0,0,0,.55)">
         <div style="height:380px;position:relative;overflow:hidden">
           <div role="img" aria-label="Pirate Black" style="position:absolute;top:0;left:-100%;width:200%;height:100%;background-image:url('assets/poster-red-black.jpeg');background-size:cover;background-position:center 22%;transition:transform .5s" style-hover="transform:scale(1.05)"></div>
         </div>
@@ -136,7 +226,7 @@
       <sc-for list="{{ episodes }}" as="ep">
         <div data-reveal="{{ ep.reveal }}" data-tilt="1" style="position:relative;border-radius:24px;overflow:hidden;background:#101823;border:2.5px solid {{ ep.border }};box-shadow:0 16px 40px rgba(0,0,0,.4);transition:transform .25s,box-shadow .25s;will-change:transform;cursor:pointer" style-hover="box-shadow:0 28px 60px rgba(0,0,0,.55)">
           <div style="height:170px;overflow:hidden;position:relative">
-            <div role="img" aria-label="{{ ep.title }}" style="position:absolute;inset:0;background-image:url('{{ ep.img }}');background-size:cover;background-position:center;filter:{{ ep.filter }};transition:transform .5s" style-hover="transform:scale(1.07)"></div>
+            <div role="img" aria-label="{{ ep.title }}" style="position:absolute;inset:0;background-image:{{ ep.bg }};background-size:cover;background-position:center;filter:{{ ep.filter }};transition:transform .5s" style-hover="transform:scale(1.07)"></div>
             <sc-if value="{{ ep.locked }}" hint-placeholder-val="{{ false }}">
               <div style="position:absolute;inset:0;background:rgba(8,19,31,.55);display:grid;place-items:center">
                 <div style="width:54px;height:54px;border-radius:50%;background:rgba(16,24,35,.85);border:2px solid rgba(255,248,234,.35);display:grid;place-items:center">
@@ -169,7 +259,7 @@
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:24px">
       <sc-for list="{{ news }}" as="n">
         <a href="{{ n.href }}" data-reveal="{{ n.reveal }}" style="display:block;text-decoration:none;border-radius:24px;overflow:hidden;background:#101823;border:2px solid rgba(255,248,234,.12);box-shadow:0 14px 36px rgba(0,0,0,.35);transition:transform .25s,border-color .25s" style-hover="transform:translateY(-8px);border-color:rgba(255,194,51,.5)">
-          <div style="height:180px;overflow:hidden;position:relative"><div role="img" aria-label="{{ n.title }}" style="position:absolute;inset:0;background-image:url('{{ n.img }}');background-size:cover;background-position:{{ n.pos }};transition:transform .5s" style-hover="transform:scale(1.06)"></div></div>
+          <div style="height:180px;overflow:hidden;position:relative"><div role="img" aria-label="{{ n.title }}" style="position:absolute;inset:0;background-image:{{ n.bg }};background-size:cover;background-position:{{ n.pos }};transition:transform .5s" style-hover="transform:scale(1.06)"></div></div>
           <div style="padding:18px 20px 22px">
             <div style="display:flex;align-items:center;gap:10px">
               <div style="font-family:Nunito,sans-serif;font-weight:900;font-size:11px;letter-spacing:1.5px;color:#14181F;background:{{ n.tagBg }};border-radius:999px;padding:4px 11px">{{ n.tag }}</div>
@@ -200,13 +290,57 @@
   </div>
 </section>
 
-<dc-import name="SiteFooter" wave-bg="#0E3D66" hint-size="100%,420px"></dc-import>
+
+<footer style="background:#0A1220;position:relative;overflow:hidden">
+  <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style="display:block;width:100%;height:70px;margin-bottom:-1px;background:{{ waveBg }}"><path d="M0 70 L0 34 C240 6 480 62 720 36 C960 10 1200 58 1440 30 L1440 70 Z" fill="#0A1220"/></svg>
+  <div class="pp-footer-grid" style="max-width:1240px;margin:0 auto;padding:36px 28px 28px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px">
+    <div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(160deg,#FFC233,#E0921F);display:grid;place-items:center;box-shadow:inset 0 2px 0 rgba(255,255,255,.45)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3c-4.4 0-8 3.1-8 7 0 2 .9 3.6 2.4 4.8l-.4 3 3-1.2c.9.3 2 .4 3 .4s2.1-.1 3-.4l3 1.2-.4-3C19.1 13.6 20 12 20 10c0-3.9-3.6-7-8-7Z" fill="#14181F"/><circle cx="9" cy="10" r="1.7" fill="#FFC233"/><circle cx="15" cy="10" r="1.7" fill="#FFC233"/><rect x="10.6" y="13.2" width="2.8" height="1.6" rx=".8" fill="#FFC233"/></svg>
+        </div>
+        <div style="font-family:Fredoka,sans-serif;font-weight:700;font-size:19px;color:#FFF8EA">PIXEL<span style="color:#FFC233"> PIRATES</span></div>
+      </div>
+      <p style="font-family:Nunito,sans-serif;font-size:14px;font-weight:600;line-height:1.6;color:rgba(255,248,234,.6);margin:0 0 14px;max-width:300px">Two unlikely pirates. One legendary adventure. An original animated series for the whole crew.</p>
+      <div style="font-family:Nunito,sans-serif;font-size:13px;font-weight:700;color:rgba(255,248,234,.45)">Licensed by <span style="color:#FFC233">BBC Studios Ltd™</span></div>
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <sc-for list="{{ socials }}" as="s" hint-placeholder-count="6">
+          <a href="#" title="{{ s.label }}" style="width:34px;height:34px;border-radius:50%;background:rgba(255,248,234,.1);display:grid;place-items:center;color:rgba(255,248,234,.8);text-decoration:none;transition:background .2s, transform .2s" style-hover="background:#FFC233;color:#14181F;transform:translateY(-3px)">
+            <span style="display:contents">{{ s.svg }}</span>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+    <sc-for list="{{ columns }}" as="col" hint-placeholder-count="3">
+      <div>
+        <div style="font-family:Fredoka,sans-serif;font-weight:600;font-size:15px;color:#FFC233;margin-bottom:12px;letter-spacing:.5px">{{ col.title }}</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ col.items }}" as="item" hint-placeholder-count="4">
+            <a href="{{ item.href }}" style="font-family:Nunito,sans-serif;font-size:14px;font-weight:700;color:rgba(255,248,234,.65);text-decoration:none;transition:color .2s" style-hover="color:#FFF8EA">{{ item.label }}</a>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+  <div style="border-top:1px solid rgba(255,248,234,.1);padding:16px 28px;text-align:center;font-family:Nunito,sans-serif;font-size:13px;font-weight:600;color:rgba(255,248,234,.4)">© 2026 Pixel Pirates. All treasure reserved. Original characters, artwork and stories.</div>
+</footer>
+
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;premiereDate&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;2026-12-04T18:00:00Z&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Season 1&quot;}}">
 class Component extends DCLogic {
-  state = { cd: { d: '—', h: '—', m: '—', s: '—' }, subscribed: false };
+  state = { cd: { d: '—', h: '—', m: '—', s: '—' }, subscribed: false, solid: false, teaserOpen: false, menuOpen: false };
 
   componentDidMount() {
+    // Nav
+    this._onNavScroll = () => {
+      const solid = window.scrollY > 40;
+      if (solid !== this.state.solid) this.setState({ solid });
+    };
+    window.addEventListener('scroll', this._onNavScroll, { passive: true });
+    this._onNavScroll();
+    this._onOpen = () => this.setState({ teaserOpen: true });
+    window.addEventListener('pp-open-teaser', this._onOpen);
+
     // Countdown
     const target = new Date(this.props.premiereDate ?? '2026-12-04T18:00:00Z').getTime();
     const tick = () => {
@@ -276,6 +410,8 @@ class Component extends DCLogic {
   _root() { return document; }
 
   componentWillUnmount() {
+    window.removeEventListener('scroll', this._onNavScroll);
+    window.removeEventListener('pp-open-teaser', this._onOpen);
     clearInterval(this._timer);
     if (this._io) this._io.disconnect();
     window.removeEventListener('scroll', this._onScroll);
@@ -295,10 +431,71 @@ class Component extends DCLogic {
     ];
     const news = [
       { title: 'Season 1 premiere date announced', desc: 'Mark your maps — the first voyage sets sail this December.', tag: 'SEASON UPDATE', tagBg: 'linear-gradient(180deg,#FFD75E,#FFB61E)', date: 'JUL 2026', img: 'assets/worldmap.jpeg', pos: 'center', href: '#season', reveal: 0 },
-      { title: 'The official merch collection is here', desc: 'Tees, figures, backpacks and more — the full Episode One line revealed.', tag: 'MERCH', tagBg: '#FF6B5E', date: 'JUN 2026', img: 'assets/merch.jpeg', pos: 'center', href: 'Shop.dc.html', reveal: 1 },
-      { title: 'Behind the scenes: building the island', desc: 'How our artists designed Pirate Village, the Shipyard and Treasure Cave.', tag: 'BEHIND THE SCENES', tagBg: '#7fd6a2', date: 'MAY 2026', img: 'assets/environment-sheet.jpeg', pos: 'center top', href: 'Discover.dc.html', reveal: 2 },
+      { title: 'The official merch collection is here', desc: 'Tees, figures, backpacks and more — the full Episode One line revealed.', tag: 'MERCH', tagBg: '#FF6B5E', date: 'JUN 2026', img: 'assets/merch.jpeg', pos: 'center', href: '#', reveal: 1 },
+      { title: 'Behind the scenes: building the island', desc: 'How our artists designed Pirate Village, the Shipyard and Treasure Cave.', tag: 'BEHIND THE SCENES', tagBg: '#7fd6a2', date: 'MAY 2026', img: 'assets/environment-sheet.jpeg', pos: 'center top', href: '#', reveal: 2 },
     ];
+
+    // --- nav ---
+    const active = 'Home';
+    const linkDefs = [
+      ['Home', '#'],
+      ['Characters', '#characters'],
+      ['Episodes', '#episodes'],
+      ['Fun & Games', '#'],
+      ['Discover', '#'],
+      ['Shop', '#'],
+      ['News', '#news'],
+      ['Media Hub', '#'],
+    ];
+    const links = linkDefs.map(([label, href]) => ({
+      label, href,
+      color: label === active ? '#14181F' : 'rgba(255,248,234,.92)',
+      bg: label === active ? 'linear-gradient(180deg,#FFD75E,#FFB61E)' : 'transparent',
+      mobileBg: label === active ? 'linear-gradient(180deg,#FFD75E,#FFB61E)' : 'rgba(255,248,234,.06)',
+    }));
+    const svg = (d) => React.createElement('svg', { width: 17, height: 17, viewBox: '0 0 24 24', fill: 'none' },
+      React.createElement('path', { d, stroke: 'currentColor', strokeWidth: 2.2, strokeLinecap: 'round', strokeLinejoin: 'round' }));
+    const icons = [
+      { label: 'Search', svg: svg('M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14Zm9 16-4-4') },
+      { label: 'Cart', svg: svg('M3 4h2l2.4 12h11.2L21 8H7M9 20h.01M17 20h.01') },
+      { label: 'Profile', svg: svg('M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8a7 7 0 0 1 14 0') },
+    ];
+    // --- footer ---
+    const flink = (label, href) => ({ label, href: href || '#' });
+    const columns = [
+      { title: 'EXPLORE', items: [flink('Characters', '#characters'), flink('Episodes', '#episodes'), flink('Fun & Games'), flink('Discover the World'), flink('Shop'), flink('Media Hub')] },
+      { title: 'COMPANY', items: [flink('Contact Us'), flink('Careers'), flink('Press'), flink('Events'), flink('Sitemap')] },
+      { title: 'LEGAL', items: [flink('Terms & Conditions'), flink('Privacy Policy'), flink('Cookies Policy'), flink('Accessibility')] },
+    ];
+    const fpath = (d) => React.createElement('svg', { width: 16, height: 16, viewBox: '0 0 24 24', fill: 'currentColor' }, React.createElement('path', { d }));
+    const socials = [
+      { label: 'Instagram', svg: fpath('M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm5 5.5A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5Zm0 2A2.5 2.5 0 1 1 9.5 12 2.5 2.5 0 0 1 12 9.5ZM17.3 5.6a1.1 1.1 0 1 0 1.1 1.1 1.1 1.1 0 0 0-1.1-1.1Z') },
+      { label: 'YouTube', svg: fpath('M22 8.2a3 3 0 0 0-2.1-2.1C18 5.5 12 5.5 12 5.5s-6 0-7.9.6A3 3 0 0 0 2 8.2 31 31 0 0 0 1.6 12 31 31 0 0 0 2 15.8a3 3 0 0 0 2.1 2.1c1.9.6 7.9.6 7.9.6s6 0 7.9-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 22.4 12 31 31 0 0 0 22 8.2ZM9.8 15V9l5.2 3Z') },
+      { label: 'TikTok', svg: fpath('M16.6 3c.4 2.2 1.8 3.7 4 4v3c-1.6 0-3-.5-4-1.3v6.2A6.1 6.1 0 1 1 10.5 9v3.2a3 3 0 1 0 3 3V3Z') },
+      { label: 'Facebook', svg: fpath('M13.5 22v-8h2.7l.4-3.2h-3.1V8.7c0-.9.3-1.6 1.7-1.6h1.5V4.2A20 20 0 0 0 14.5 4c-2.6 0-4.3 1.6-4.3 4.4v2.4H7.5V14h2.7v8Z') },
+      { label: 'X', svg: fpath('M17.8 3h3l-6.7 7.7L22 21h-6.2l-4.8-6.3L5.4 21h-3l7.2-8.2L2 3h6.3l4.4 5.8Z') },
+      { label: 'Discord', svg: fpath('M19.6 5.6A17 17 0 0 0 15.4 4l-.5 1a15.7 15.7 0 0 0-5.8 0L8.6 4a17 17 0 0 0-4.2 1.6C1.7 9.6 1 13.5 1.4 17.3A17 17 0 0 0 6.6 20l1.1-1.8a11 11 0 0 1-1.7-.8l.4-.3a12.2 12.2 0 0 0 11.2 0l.4.3a11 11 0 0 1-1.7.8L17.4 20a17 17 0 0 0 5.2-2.7c.5-4.4-.7-8.2-3-11.7ZM8.7 14.9c-1 0-1.9-1-1.9-2.1s.8-2.1 1.9-2.1 1.9 1 1.9 2.1-.9 2.1-1.9 2.1Zm6.6 0c-1 0-1.9-1-1.9-2.1s.8-2.1 1.9-2.1 1.9 1 1.9 2.1-.8 2.1-1.9 2.1Z') },
+    ];
+    // --- resource indirection for bundled offline mode ---
+    const RES = window.__resources || {};
+    const RMAP = { 'assets/poster-red-black.jpeg': 'poster', 'assets/lobby.jpeg': 'lobby', 'assets/worldmap.jpeg': 'worldmap', 'assets/levelup.jpeg': 'levelup', 'assets/merch.jpeg': 'merch', 'assets/environment-sheet.jpeg': 'envsheet' };
+    const R = (p) => RES[RMAP[p]] || p;
+    episodes.forEach((e) => { e.bg = "url('" + R(e.img) + "')"; });
+    news.forEach((e) => { e.bg = "url('" + R(e.img) + "')"; });
     return {
+      links, icons, columns, socials, waveBg: '#0E3D66',
+      navBg: this.state.solid ? 'linear-gradient(180deg,#0B2A4A,#0d3156ee)' : 'linear-gradient(180deg,rgba(8,16,28,.55),rgba(8,16,28,0))',
+      navShadow: this.state.solid ? '0 10px 30px rgba(4,12,24,.45)' : 'none',
+      navBlur: this.state.solid ? 'blur(12px)' : 'none',
+      teaserOpen: this.state.teaserOpen,
+      menuOpen: this.state.menuOpen,
+      burgerPath: this.state.menuOpen ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16',
+      toggleMenu: () => this.setState({ menuOpen: !this.state.menuOpen }),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      openTeaserFromMenu: () => this.setState({ menuOpen: false, teaserOpen: true }),
+      openTeaser: () => this.setState({ teaserOpen: true }),
+      closeTeaser: () => this.setState({ teaserOpen: false }),
+      stopClick: (e) => e.stopPropagation(),
       countdown, episodes, news,
       openTrailer: () => window.dispatchEvent(new CustomEvent('pp-open-teaser')),
       subscribe: () => this.setState({ subscribed: true }),

@@ -19,6 +19,10 @@
   @keyframes pp-pop { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
   @keyframes pp-slidein { from { transform: translateX(100%); } to { transform: translateX(0); } }
   @keyframes pp-spin3d { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+  @media (max-width: 640px) {
+    .pp-banner-scrim { display: none !important; }
+    .pp-banner-copy { position: static !important; transform: none !important; max-width: none !important; padding: 22px 24px; background: #101823; }
+  }
 </style>
 </helmet>
 
@@ -38,8 +42,8 @@
 <section data-screen-label="Collection banner" style="background:#0B2A4A;padding:80px 24px 40px">
   <div data-reveal="0" style="max-width:1240px;margin:0 auto;position:relative;border-radius:28px;overflow:hidden;border:3px solid rgba(255,194,51,.4);box-shadow:0 30px 70px rgba(0,0,0,.5)">
     <img src="assets/merch.jpeg" alt="The Pixel Pirates Episode One merchandise collection" style="width:100%;display:block">
-    <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,19,31,.75) 0%,rgba(8,19,31,0) 55%)"></div>
-    <div style="position:absolute;left:clamp(20px,5%,60px);top:50%;transform:translateY(-50%);max-width:340px">
+    <div class="pp-banner-scrim" style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,19,31,.75) 0%,rgba(8,19,31,0) 55%)"></div>
+    <div class="pp-banner-copy" style="position:absolute;left:clamp(20px,5%,60px);top:50%;transform:translateY(-50%);max-width:340px">
       <div style="font-family:Nunito,sans-serif;font-weight:900;font-size:13px;letter-spacing:2.5px;color:#FFC233">NEW ARRIVALS</div>
       <div style="font-family:Fredoka,sans-serif;font-weight:700;font-size:clamp(26px,3.5vw,42px);color:#FFF8EA;line-height:1.1;margin:10px 0 16px;text-shadow:0 3px 0 rgba(0,0,0,.4)">The Lost Treasure Collection</div>
       <a href="#products" style="display:inline-block;font-family:Fredoka,sans-serif;font-weight:600;font-size:16px;color:#14181F;background:linear-gradient(180deg,#FFD75E,#FFB61E);text-decoration:none;border-radius:999px;padding:12px 26px;box-shadow:0 4px 0 #B57708;transition:transform .15s" style-hover="transform:translateY(-2px)">Shop the Collection</a>
